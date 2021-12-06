@@ -19,6 +19,7 @@ public class Dia2 {
 		lector = new Lector(rutaArchivo);
 		this.posHorizontal=0;
 		this.posProfundidad=0;
+		this.objetivo=0;
 		 data=lector.leerFichero();
 		
 		
@@ -103,8 +104,53 @@ public class Dia2 {
 	}
 	
 	
-	
-	
+	public int solucionParte2() {
+
+		this.posHorizontal=0;
+		this.posProfundidad=0;
+		
+		for (int i = 0; i < data.length; i++) {
+			//Mediante el siguiente uso de regex separamos los comandos con su valor al separar el valor contiene un espacio
+			Pattern pattern = Pattern.compile("^[^\\s]+(\\s+[^\\s]+)*$");
+			Matcher matcher = pattern.matcher(data[i]);
+			String reemplazo="";
+			
+			if (matcher.find()){
+				  reemplazo=  matcher.group(1);
+				}
+			String opcion=data[i].replace(reemplazo, "");
+			switch (opcion) {
+			case "forward": {
+			//	posHorizontal=posHorizontal+Integer.parseInt(reemplazo.replace(" ", ""));
+				this.posHorizontal=this.posHorizontal+Integer.parseInt(reemplazo.replace(" ", ""));
+				this.posProfundidad=(Integer.parseInt(reemplazo.replace(" ", ""))*this.objetivo)+this.posProfundidad;
+				break;
+			}
+			
+			case "down":{
+			//	posProfundidad=posProfundidad+Integer.parseInt(reemplazo.replace(" ", ""));
+				this.objetivo=this.objetivo+Integer.parseInt(reemplazo.replace(" ", ""));
+				
+				break;
+
+			}
+			
+			case "up":{
+				this.objetivo=this.objetivo-Integer.parseInt(reemplazo.replace(" ", ""));
+				break;
+			}
+			
+			
+			
+			default:
+				throw new IllegalArgumentException("Unexpected value: " + data[i]);
+				
+			}
+		}
+		
+		return this.posHorizontal*this.posProfundidad;
+		
+	}
 	
 	
 	
