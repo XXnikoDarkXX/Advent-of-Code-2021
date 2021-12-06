@@ -35,15 +35,16 @@ public class Lector {
 					br = new BufferedReader(new FileReader(rutaFichero.toString()));
 					// Leer la primera línea, guardando en un String
 					String linea = br.readLine();
-					 texto+=linea+"\n";
+					 //texto+=linea+"\n";
 					// Repetir mientras no se llegue al final del fichero
 					while (linea != null) {
 						// Hacer lo que sea con la línea leída
 						// Leer la siguiente línea
 						//System.out.println(linea);
+						
 						texto+=linea+"\n";
-
 						linea = br.readLine();
+						
 					}
 				} catch (FileNotFoundException e) {
 					System.out.println("Error: Fichero no encontrado");

@@ -282,7 +282,7 @@ public class Dia1 {
 	}
 	
 	public String enviarSolucion() {
-		return "- DIA 1 - \n¿Cuántas medidas son más grandes que la medida anterior?\n"
+		return "- DIA 1 - Parte 1: \n¿Cuántas medidas son más grandes que la medida anterior?\n"
 				+ this.totalNumeros;
 		
 	}
