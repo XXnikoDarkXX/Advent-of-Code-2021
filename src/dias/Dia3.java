@@ -12,12 +12,19 @@ public class Dia3 {
 	private int matrizCodigos[][];
 	private long consumoEnergia;
 
+	private String[] codigos;
+	private long clasCO2;
+	private long  clasOxigeno;
+	private long clasSoporteVital;//clasCO2*clasOxigeno
+
 	public Dia3(Path rutaArchivo) {
 		lector = new Lector(rutaArchivo);
-		String[] codigos = lector.leerFichero();
+		codigos = lector.leerFichero();
 		matrizCodigos = devolverMatriz(codigos);
 
 	}
+
+	
 
 	public long getTotalGamma() {
 		return totalGamma;
@@ -139,10 +146,10 @@ public class Dia3 {
 		// creamos un array para devolver gamma desde la matriz codigos
 		int[] gamma = devolverBinario(matrizCodigos);
 		tasaGamma = Arrays.toString(gamma);// Pasamos el array a String para el gamma
-		
+
 		tasaEpsilon = darVueltaBinario(gamma);// damos la vuelta a la gamma para conseguir el epsilon lo pasamos
 		// directamente a String
-		
+
 		// reemplazamos los caracteres del array para dejar solo el numero
 		tasaGamma = tasaGamma.replace("[", "").replace("]", "").replace(",", "").replace(" ", "");
 
@@ -151,6 +158,137 @@ public class Dia3 {
 		consumoEnergia = totalGamma * totalEpsilon;// multiplicamos
 
 		return consumoEnergia;
+	}
+	
+	
+	
+	public long solucionParte2() {
+		this.matrizCodigos=this.devolverGeneradorOxigeno();
+		int[] arrayOxigeno = devolverBinario(matrizCodigos);
+		String totalOxigeno = Arrays.toString(arrayOxigeno);
+		totalOxigeno = totalOxigeno.replace("[", "").replace("]", "").replace(",", "").replace(" ", "");
+		
+		this.clasOxigeno = convertirBinarioAdecimal(totalOxigeno);// Convertimos el numero gamma a decimal
+		
+		
+		this.matrizCodigos=this.devolverDepuradorCO2();
+		int[] arrayCo2 = devolverBinario(matrizCodigos);
+		
+		String totalCo2 = Arrays.toString(arrayCo2);
+		totalCo2 = totalCo2.replace("[", "").replace("]", "").replace(",", "").replace(" ", "");
+		this.clasCO2 = convertirBinarioAdecimal(totalCo2);// Convertimos el numero gamma a decimal
+		this.clasSoporteVital=this.clasCO2*this.clasOxigeno;
+		return clasSoporteVital;
+		
+	}
+
+	
+	public int[][] devolverGeneradorOxigeno() {
+	  this.matrizCodigos=this.devolverMatriz(codigos);
+		int posicion = 0;
+		for (int i = 0; i < matrizCodigos[0].length; i++) {
+
+			int matriz[][] = new int[1][2];
+
+			for (int j = 0; j < matrizCodigos.length; j++) {
+				if (matrizCodigos[j][i] == 0) {
+					matriz[0][0] += 1;
+
+				} else {
+					matriz[0][1] += 1;
+				}
+			}
+
+			if (matriz[0][0] > matriz[0][1]) {
+				// resultado[i] = 0;
+				// Buscamos los resultados con posicion 0
+
+				matrizCodigos = ObtenerMatrizPosicion(matrizCodigos, posicion, 0);
+			} else if (matriz[0][0] < matriz[0][1]) {
+				// resultado[i] = 1;
+				matrizCodigos = ObtenerMatrizPosicion(matrizCodigos, posicion, 1);
+
+			} else if (matriz[0][0] == matriz[0][1]) {
+				matrizCodigos = ObtenerMatrizPosicion(matrizCodigos, posicion, 1);
+
+			}
+
+			posicion++;
+
+		}
+		return matrizCodigos;
+		
+		
+	}
+	
+	
+	public int[][] devolverDepuradorCO2(){
+		  this.matrizCodigos=this.devolverMatriz(codigos);
+
+		int posicion=0;
+		for (int i = 0; i < matrizCodigos[0].length; i++) {
+			if (matrizCodigos.length == 1) {
+				break;
+			}
+			int matriz[][] = new int[1][2];
+
+			for (int j = 0; j < matrizCodigos.length; j++) {
+				if (matrizCodigos[j][i] == 0) {
+					matriz[0][0] += 1;
+
+				} else {
+					matriz[0][1] += 1;
+				}
+			}
+
+			if (matriz[0][0] < matriz[0][1]) {
+				// resultado[i] = 0;
+				// Buscamos los resultados con posicion 0
+
+				matrizCodigos = ObtenerMatrizPosicion(matrizCodigos, posicion, 0);
+			} else if (matriz[0][0] > matriz[0][1]) {
+				// resultado[i] = 1;
+				matrizCodigos = ObtenerMatrizPosicion(matrizCodigos, posicion, 1);
+
+			} else if (matriz[0][0] == matriz[0][1]) {
+				matrizCodigos = ObtenerMatrizPosicion(matrizCodigos, posicion, 0);
+
+			}
+
+			posicion++;
+
+		}
+		return this.matrizCodigos;
+		
+	}
+
+	public int[][] ObtenerMatrizPosicion(int[][] matrizCodigos, int posicion, int numero) {
+		int[][] resultado = null;
+		int contadorTotal = 0;
+		int contador = 0;
+		for (int i = 0; i < matrizCodigos.length; i++) {
+			if (matrizCodigos[i][posicion] == numero) {
+				contadorTotal++;
+
+			}
+
+		}
+		resultado = new int[contadorTotal][12];
+
+		for (int i = 0; i < matrizCodigos.length; i++) {
+
+			if (matrizCodigos[i][posicion] == numero) {
+
+				for (int e = 0; e < resultado[0].length; e++) {
+					resultado[contador][e] = matrizCodigos[i][e];
+				}
+				contador++;
+			}
+
+		}
+
+		return resultado;
+
 	}
 
 }

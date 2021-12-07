@@ -49,127 +49,27 @@ public class Main {
 		Dia3 dia3 = new Dia3(Paths.get("txt\\diagnosticoBinario.txt"));
 		System.out.println(
 				"- DIA 3 - Parte 1: \n  ¿Cuál es el consumo de energía del submarino?\n" + dia3.solucionParte1());
+		
+		System.out.println(
+				"- DIA 3 - Parte 1: \n  ¿Cuál es la clasificación de soporte vital del submarino?\n" + dia3.solucionParte2());
+		
 
-		Lector lector = new Lector(Paths.get("txt\\diagnosticoBinario.txt"));
-		String[] codigos = lector.leerFichero();
-		int matrizCodigos[][] = dia3.devolverMatriz(codigos);
-
-		int posicion = 0;
-		// int[] resultado = new int[matrizCodigos[0].length];
-		LinkedList<Integer> resultado = new LinkedList<Integer>();
-		for (int i = 0; i < matrizCodigos[0].length; i++) {
-
-			int matriz[][] = new int[1][2];
-
-			for (int j = 0; j < matrizCodigos.length; j++) {
-				if (matrizCodigos[j][i] == 0) {
-					matriz[0][0] += 1;
-
-				} else {
-					matriz[0][1] += 1;
-				}
-			}
-
-			if (matriz[0][0] > matriz[0][1]) {
-				// resultado[i] = 0;
-				// Buscamos los resultados con posicion 0
-
-				matrizCodigos = ObtenerMatrizPosicion(matrizCodigos, posicion, 0);
-			} else if (matriz[0][0] < matriz[0][1]) {
-				// resultado[i] = 1;
-				matrizCodigos = ObtenerMatrizPosicion(matrizCodigos, posicion, 1);
-
-			} else if (matriz[0][0] == matriz[0][1]) {
-				matrizCodigos = ObtenerMatrizPosicion(matrizCodigos, posicion, 1);
-
-			}
-
-			posicion++;
-
-		}
-		posicion = 0;
-		int[] clasiOxigeno = dia3.devolverBinario(matrizCodigos);
-		String totalOxigeno = Arrays.toString(clasiOxigeno);
-		totalOxigeno = totalOxigeno.replace("[", "").replace("]", "").replace(",", "").replace(" ", "");
+		
+		//Dia 4 
+		Lector lector=new Lector(Paths.get("txt\\ejemploBingoCalamar.txt"));
+		String []numeros=lector.leerNumerosBingo();
+		
+		String[]tableros=lector.leerTableroBingo();
+		
+		System.out.println();
 		
 		
-		matrizCodigos = dia3.devolverMatriz(codigos);
-
-		for (int i = 0; i < matrizCodigos[0].length; i++) {
-			if (matrizCodigos.length == 1) {
-				break;
-			}
-			int matriz[][] = new int[1][2];
-
-			for (int j = 0; j < matrizCodigos.length; j++) {
-				if (matrizCodigos[j][i] == 0) {
-					matriz[0][0] += 1;
-
-				} else {
-					matriz[0][1] += 1;
-				}
-			}
-
-			if (matriz[0][0] < matriz[0][1]) {
-				// resultado[i] = 0;
-				// Buscamos los resultados con posicion 0
-
-				matrizCodigos = ObtenerMatrizPosicion(matrizCodigos, posicion, 0);
-			} else if (matriz[0][0] > matriz[0][1]) {
-				// resultado[i] = 1;
-				matrizCodigos = ObtenerMatrizPosicion(matrizCodigos, posicion, 1);
-
-			} else if (matriz[0][0] == matriz[0][1]) {
-				matrizCodigos = ObtenerMatrizPosicion(matrizCodigos, posicion, 0);
-
-			}
-
-			posicion++;
-
-		}
-
-	
-	int[] clasCo2=	dia3.devolverBinario(matrizCodigos);
-	String totalCo2 = Arrays.toString(clasCo2);
-	totalCo2 = totalCo2.replace("[", "").replace("]", "").replace(",", "").replace(" ", "");
-	
-	
-	long puntoCo2 = dia3.convertirBinarioAdecimal(totalCo2);// Convertimos el numero gamma a decimal
-	long puntoOxigeno = dia3.convertirBinarioAdecimal(totalOxigeno);// convertimos el numero epsilon a decimal
-	System.out.println(puntoCo2*puntoOxigeno);
-	
-	
-	}
-
-	// Clasificacion de soporte vital = calsificacion del generador de oxigeno *
-	// clasiDepurador
-	public static int[][] ObtenerMatrizPosicion(int[][] matrizCodigos, int posicion, int numero) {
-		int[][] resultado = null;
-		int contadorTotal = 0;
-		int contador = 0;
-		for (int i = 0; i < matrizCodigos.length; i++) {
-			if (matrizCodigos[i][posicion] == numero) {
-				contadorTotal++;
-
-			}
-
-		}
-		resultado = new int[contadorTotal][12];
-
-		for (int i = 0; i < matrizCodigos.length; i++) {
-
-			if (matrizCodigos[i][posicion] == numero) {
-
-				for (int e = 0; e < resultado[0].length; e++) {
-					resultado[contador][e] = matrizCodigos[i][e];
-				}
-				contador++;
-			}
-
-		}
-
-		return resultado;
-
+		
+		//Sacamos el primer carton del bingo en una matriz 5 5 
+		
+		//byte numerosCartonesBingos=
+		
+		
 	}
 
 }
