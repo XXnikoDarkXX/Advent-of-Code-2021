@@ -37,7 +37,7 @@ public class Lector {
 				// Hacer lo que sea con la línea leída
 				// Leer la siguiente línea
 				// System.out.println(linea);
-				
+
 				texto += linea + "\n";
 				linea = br.readLine();
 
@@ -62,7 +62,7 @@ public class Lector {
 			// un objeto FileReader con el nombre del fichero
 			br = new BufferedReader(new FileReader(rutaFichero.toString()));
 			// Leer la primera línea, guardando en un String
-			String linea="";
+			String linea = "";
 			br.readLine();
 			br.readLine();
 
@@ -74,24 +74,24 @@ public class Lector {
 				// Leer la siguiente línea
 				// System.out.println(linea);
 
-				linea=br.readLine();
-				if (!linea.equals("")) {
-					if (linea.charAt(0)==' ') {
-						
-						linea=linea.substring(1);
+				linea = br.readLine();
+
+				if (linea != null) {
+
+					if (!linea.equals("")) {
+						if (linea.charAt(0) == ' ') {
+
+							linea = linea.substring(1);
+						}
+
+						linea = linea.replace("  ", " ");
+						linea = linea.replace(" ", ",");
+						texto += linea + ",";
+
 					}
-					
-					linea=linea.replace("  ", " ");
-					linea=linea.replace(" ", ",");
-					texto += linea+",";
 
 				}
-					
-				
-				
-				
-				
-			
+
 			}
 		} catch (FileNotFoundException e) {
 			System.out.println("Error: Fichero no encontrado");
@@ -131,7 +131,7 @@ public class Lector {
 			System.out.println(e.getMessage());
 		}
 
-		return linea.split("\n");
+		return linea.split(",");
 
 	}
 
