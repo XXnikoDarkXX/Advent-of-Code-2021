@@ -210,7 +210,104 @@ public class Dia4 {
 	}
 
 	
+	public int solucionParte2() {
+		for (int i = 0; i < numeroTableros; i++) {// Este bucle se ejecutará las veces que de cartones de bingo que haya
+
+			int[][] cartonComprobacion = new int[5][5];// Creamos el carton de comprobacion
+
+			int[][] carton = sacarCarton(tableros, cartonComprobacion);// Sacamos el primer carton del bingo en una
+																		// matriz 5 5
+
+			int[][] auxiliar = jugarCarton2(numerosBingo, carton, cartonComprobacion, i, numerosCartonesBingos);
+
+			numerosCartonesBingos[i][0] = auxiliar[0][0];
+			numerosCartonesBingos[i][1] = auxiliar[0][1];
+			tableros = devolverTablero(tableros);
+
+		}
+		
+		int indice = numerosCartonesBingos[0][0];
+		int resultado = numerosCartonesBingos[0][0];
+
+		for (int i = 0; i < numerosCartonesBingos.length; i++) {
+			for (int j = 0; j < 1; j++) {
+				if (numerosCartonesBingos[i][0] > resultado) {
+					indice = i;
+					resultado = numerosCartonesBingos[i][j];
+				}
+			}
+		}
+		return numerosCartonesBingos[indice][1];
+	}
 	
+	
+	
+	/**
+	 * Funcion para comenzar a jugar un carton del bingo
+	 * 
+	 * @param numerosBingo       arrays con los numeros del bingo
+	 * @param carton             del bingo
+	 * @param cartonComprobacion que se usara para saber si ha ganado o no
+	 * @param i
+	 * @return
+	 */
+	public int[][] jugarCarton2(int[] numerosBingo, int[][] carton, int[][] cartonComprobacion, int i,
+			int[][] numerosCartonesBingos) {
+		boolean hasGanado;// Booleano que usaremos de control para saber si un carton ha ganado y para su
+							// bucle
+		int[][] matrizTotal = new int[1][2];
+
+		for (int h = 0; h < numerosBingo.length; h++) {
+
+			for (int j = 0; j < carton.length; j++) {
+				for (int e = 0; e < carton.length; e++) {
+
+					if (numerosBingo[h] == carton[j][e]) {
+						cartonComprobacion[j][e] = numerosBingo[h];
+						hasGanado = comprobarBingo2(cartonComprobacion, j, e);
+
+						if (hasGanado) {
+							// h devuelve la posicion del array de los numeros del bingo lanzados
+
+							matrizTotal[0][0] = h;
+
+							matrizTotal[0][1] = sumaNumerosCartonBingo(cartonComprobacion, numerosCartonesBingos,
+									carton) * numerosBingo[h];
+							return matrizTotal;
+						}
+
+					}
+
+				}
+			}
+
+		}
+		return null;
+	}
+	
+	
+	public static boolean comprobarBingo2(int[][] cartonComprobacion, int post1, int post2) {
+
+		for (int i = 0; i < 2; i++) {
+			int ganas = 5;// si el contador llega a 0 has ganado
+			for (int j = 0; j < cartonComprobacion.length; j++) {
+				if (i == 0) {
+					if (cartonComprobacion[post1][j] >=0) {
+						ganas--;
+					}
+				} else {
+					if (cartonComprobacion[j][post2] >= 0) {
+						ganas--;
+					}
+				}
+			}
+			if (ganas == 0) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 
 }
